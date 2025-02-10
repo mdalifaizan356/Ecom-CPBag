@@ -1,0 +1,195 @@
+Description:
+    It is a E-Commerce Web App for CP Bag Agency. It is Create On MERN Stack.
+
+Technology Used
+    Frontend:
+        React: TanStackQuery, Redux, 
+        Tailwind, Daisy UI
+
+    Backend:
+        Node
+        Express
+    
+    Database:
+        MongoDB
+
+Module:
+    Admin
+    Customer
+
+Models:
+    User Model
+    Product Model
+    Category Model
+    Brand Model
+    Inventry Model
+    Review and Rating Model
+    Cart Model
+    Coupon And Discount Model
+    Wishlist Model
+
+
+
+
+Future Scope:
+    use Redis
+
+
+
+
+
+
+
+import React, {useEffect, useState} from 'react';
+import axios from "axios";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
+import Loader from './Loader';
+
+const DataEffect = () => {
+  // const [data, setData] = useState();
+  const [data, setData] = useState([]);
+  const [loading, setLoading ] = useState(true);
+  const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("");
+
+  useEffect(()=>{
+    fetch();
+  },[])
+
+  const fetch = async()=>{
+    const response = await axios.get("https://fakestoreapi.com/products");
+    // console.log(">>>>>>>>>>>Response>>>>>>>>", response.data);
+    setData(response.data);
+    setLoading(false);
+  }
+  // console.log(data);
+  // const abc = ()=>{
+  //   setLoading(!loading)
+  // }
+
+
+  const filterData=data.filter((elements)=>
+  elements.title.toLowerCase().includes(search.toLocaleLowerCase())||elements.description.toLowerCase().includes(search.toLocaleLowerCase())
+  )
+
+  const filterSort = ()=>{
+    if(sort === "asc"){
+      return[...filterData].sort((a,b)=>a.price - b.price);
+    }
+    if(sort === "dec"){
+      return[...filterData].sort((a,b)=>b.price - a.price);
+    }
+    return filterData;
+  }
+
+  return (
+    <>
+    <input type="text"
+    value={search}
+    placeholder='Search by titile'
+    onChange={(e)=>setSearch(e.target.value)}
+    />
+
+    <button onClick={()=>setSort("asc")}>Low To High</button>
+    <button onClick={()=>setSort("dec")}>High To Low</button>
+
+    {
+      loading ? (<Loader/>):(
+      //loading ? (<h1 style={{color:"red"}}>loading</h1>):(
+        <div>
+      { (
+        filterSort().map((item) => (
+          <div key={item.id} style={{ border: "1px solid black", margin: "10px", padding: "10px" }}>
+            <h2>{item.title}</h2>
+            <p>{item.description}</p>
+            <p>Price: ${item.price}</p>
+            <LazyLoadImage 
+              src={item.image} 
+              style={{ width: "100px" }}
+              effect='blur'
+              // effect='black-and-white'
+              // onLoad={()=>console.log(`my `)}
+            />
+            {/* <img src={item.image} alt={item.title} style={{ width: "100px" }} /> */}
+          </div>
+        ))
+      )}
+    </div>
+      )
+    }
+    </>
+  )
+}
+
+export default DataEffect
+
+
+// function name and variable name is same????
+// chaimocha helmet
+// jest 
+
+
+
+import React, { useState, useEffect } from "react";
+import axiosInstance from "../../../../lib/axios";
+import { Link } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import Loader from "../../../../Components/CommonComp/Loader";
+
+const AllProducts = () => {
+  const [bags, setBags] = useState([]);
+  // const [show, setShow] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState("");
+
+  const getAllProduct = async () => {
+    try {
+      const response = await axiosInstance.get(`/productroutes/allProducts`);
+      if (response.status === 200) {
+        const AllProducts = response.data.allProducts;
+        setBags(AllProducts);
+      }
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      toast.error("Failed to fetch products! Please try again.");
+    }
+  };
+
+  useEffect(() => {
+    getAllProduct();
+  }, []);
+
+  return (
+    <>
+    <div className="flex flex-col md:flex-row gap-4 flex-wrap justify-center">
+    {bags.length > 0 ? (
+      bags.map((bag) => (
+        <div key={bag._id} className="card bg-base-100 w-100 shadow-xl">
+  <figure>
+    <img
+      src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+      alt="Shoes" />
+  </figure>
+  <div className="card-body">
+    <h2 className="card-title">
+      {bag.Name}
+      <div className="badge badge-secondary">NEW</div>
+    </h2>
+    <h2>Price: {bag.Price}</h2>
+    <div className="card-actions justify-end">
+      <div className="badge badge-outline">
+      <Link to={`editproduct/${bag._id}`} className="text-blue-500">Edit</Link>
+      </div>
+    </div>
+  </div>
+</div>
+      ))
+    ) : (
+      <Loader/>
+    )}
+    </div>
+    </>
+  );
+};
+
+export default AllProducts;
