@@ -1,14 +1,14 @@
 import express from "express";
 import userController from "../Controllers/userController.js";
-import verifyToken from "../middlewares/TokenVarification.js";
-import verifyOTP from "../middlewares/VerifyOTP.js";
-import distributeOTP from "../middlewares/DestributeOTP.js";
+import verifyToken from "../middlewares/tokenVerification.js";
 
 const router = express.Router();
-
-router.patch("/updateprofile", verifyToken, userController.updateProfile);
 router.patch("/changepass", verifyToken, userController.changePass);
-router.post("/resetpass", distributeOTP);
-router.patch("/resetpass",verifyOTP, userController.resetPass);
-router.get("/allUsers", userController.allUsers);
+router.post("/addaddress", verifyToken, userController.addAddress);
+router.get("/myaddress", verifyToken, userController.myAddress);
+router.get("/fetchselectedaddress/:AddressId", verifyToken, userController.fetchSelectedAddress);
+router.delete("/deleteaddress/:AddressId", verifyToken, userController.deleteAddress);
+router.patch("/editselectedaddress/:AddressId", verifyToken, userController.editSelectedAddress);
+
+
 export default router;

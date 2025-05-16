@@ -1,47 +1,234 @@
 import productModel from "../models/productModel.js";
+import wishlistModel from './../models/wishlistModel.js';
+import cartModel from './../models/cartModel.js';
+import orderModel from "../models/orderModel.js";
+import supplierModel from './../models/supplierModel.js';
+import userModel from './../models/userModel.js';
+import addressModel from './../models/addressModel.js';
+import productImageModel from "../models/productImgModel.js";
+import  uploadFile  from "../utilities/cloudinaryService.js";
+import inventoryModel from './../models/inventoryModel.js';
 
 const productController ={
-    // Add Product
-    addProduct: async (req, res)=>{ 
+//Add Product
+    // addProduct: async (req, res)=>{ 
+    //     try {
+    //         const {id} = req.user;
+    //         const { Name, Size, Color, Price, BrandName, Description, Images, Stock} = req.body;
+    //         console.log(Name, Size, Color, Price, BrandName, Description, Images, Stock)
+    //         const newProduct = new productModel({
+    //             Name,
+    //             Size,
+    //             Color,
+    //             Price, 
+    //             BrandName,
+    //             Description,
+    //             Images,
+    //             Stock,
+    //             SupplierId: id,  
+    //         });
+    //         await newProduct.save();
+    //         console.log(newProduct);
+
+    //         const newInventoryProduct = new inventoryModel({
+    //             SupplierId: id,
+    //             ProductId: newProduct._id,
+    //             Quantity:newProduct.Stock,
+    //         });
+    //         await newInventoryProduct.save();
+    //         res.status(200).json({ message: "Product add successfully" });
+            
+    //     }
+    //     catch (error) {
+    //         console.log(error)
+    //         return res.status(500).json({message: `Internal Server Error ${error}`});
+    //     }
+    // },
+
+// Add Product
+    addProduct: async (req, res) => {
+    try {
+        console.log(req.body);
+        console.log(req.files);
+
+        const { id } = req.user;
+        const { Name, Size, Color, Price, BrandName, Description, Stock } = req.body;
+
+        // Upload images to Cloudinary
+        const uploadedImages = await uploadFile(req.files);
+
+        // Extract secure URLs
+        const imageUrls = uploadedImages.map((img) => img.secure_url);
+
+        // Create and save product
+        const newProduct = new productModel({
+        Name,
+        Size,
+        Color,
+        Price,
+        BrandName,
+        Description,
+        Images: imageUrls, // storing image URLs
+        Stock,
+        SupplierId: id,
+        });
+
+        await newProduct.save();
+
+        const newInventoryProduct = new inventoryModel({
+        SupplierId: id,
+        ProductId: newProduct._id,
+        Quantity: newProduct.Stock,
+        });
+
+        await newInventoryProduct.save();
+
+        res.status(200).json({ message: "Product added successfully", product: newProduct });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: `Internal Server Error: ${error}` });
+    }
+    },
+
+// // All Product based on product model
+//     allProduct: async (req, res)=>{
+//         try {
+//             const Products = await productModel.find();
+//             console.log(Products)
+//             const inventoryProduct = await inventoryModel.find({ProductId: Products._id});
+//             res.status(200).json({ message: "Fetch and Return all product successfully", products: Products, inventoryProduct});
+//         }
+//         catch (error) {
+//             console.log(error)
+//             return res.status(500).json({message: `Internal Server Error ${error}`});
+//         }
+//     },
+
+
+
+// All Product based on inventory model
+allProduct: async (req, res)=>{
+    try {
+        const Products = await inventoryModel.find({ Quantity: { $gt: 0 }}).populate("ProductId");
+        console.log(Products)
+        res.status(200).json({ message: "Fetch and Return all product successfully", products: Products});
+    }
+    catch (error) {
+        console.log(error)
+        return res.status(500).json({message: `Internal Server Error ${error}`});
+    }
+},
+
+
+// supplierProduct
+    supplierProduct: async (req, res)=>{
         try {
-            const {Name, Brand, Categories, Price, DND, Stock, Description} = req.body;
-            const productData = {
-                Name, Brand, Categories, Price, DND, Stock, Description
-            };
-            const newProduct = new productModel(productData);
-            await newProduct.save();
-            return res.status(200).json({message: `Product Save Successfully`});
+            const {id} = req.user;
+            const myProducts = await productModel.find({SupplierId:id});
+            res.status(200).json({ message: "return your all product successfully", products: myProducts});
         }
         catch (error) {
+            console.log(error)
+            return res.status(500).json({message: `Internal Server Error ${error}`});
+        }
+    },
+
+    
+// Delete Selected Product
+    deleteSelectedProduct: async (req, res)=>{
+        try {
+            const {ProductId} = req.params;
+            console.log(ProductId);
+            await productModel.findByIdAndDelete(ProductId);
+            res.status(200).json({ message: "Delete Product successfully"});
+        }
+        catch (error) {
+            console.log(error)
             return res.status(500).json({message: `Internal Server Error ${error}`});
         }
     },
 
 
-    // Show All Product
-    allProducts: async (req, res)=>{ 
+// Change Status of Selected Product 
+    changeProductStatus: async (req, res)=>{
         try {
-            const allProducts = await productModel.find();
-            return res.status(200).json({allProducts, message: `Product Save Successfully`});
+            const {ProductId} = req.params;
+            const product = await productModel.findById(ProductId);
+
+        if (!product) {
+            return res.status(404).json({ message: "Product not found" });
+        }
+            const updatedStatus = !product.Status;
+            await productModel.findByIdAndUpdate(ProductId, {Status: updatedStatus });
+            res.status(200).json({ message: "Status Update successfully"});
         }
         catch (error) {
+            console.log(error)
             return res.status(500).json({message: `Internal Server Error ${error}`});
         }
     },
 
-    // Show Selected Product
-    selectedProduct: async (req, res)=>{ 
-        const {id} = req.params;
-        console.log(id);
+// Fetch Selected Product
+    fetchSelectedProduct: async (req, res)=>{
         try {
-            const selectedProduct = await productModel.findById(id);
-            console.log(selectedProduct);
-            return res.status(200).json({selectedProduct, message: `Product Save Successfully`});
+            const {ProductId} = req.params;
+            const selectedProduct = await productModel.findById(ProductId);
+            res.status(200).json({ message: "Fetch selected product successfully", selectedProduct});
         }
         catch (error) {
+            console.log(error)
             return res.status(500).json({message: `Internal Server Error ${error}`});
         }
     },
+
+// Edit Selected Product
+    editSelectedProduct: async (req, res)=>{
+        try {
+            const {ProductId} = req.params;
+            const { Name, Size, Color, Price, BrandName, Description, Images, Stock} = req.body;
+            await productModel.findByIdAndUpdate(ProductId, {Name, Size, Color, Price, BrandName, Description, Images, Stock});
+            await inventoryModel.findByIdAndUpdate(ProductId, {Quantity:Stock});
+            res.status(200).json({ message: "Status Update successfully"});
+        }
+        catch (error) {
+            console.log(error)
+            return res.status(500).json({message: `Internal Server Error ${error}`});
+        }
+    },
+
+// Supplier Active Products
+activeProducts: async (req, res)=>{
+    try {
+        const Products = await productModel.find({Status:true});
+        console.log(Products)
+        res.status(200).json({ message: "return your all product successfully", products: Products});
+    }
+    catch (error) {
+        console.log(error)
+        return res.status(500).json({message: `Internal Server Error ${error}`});
+    }
+},
+
+// Supplier Inactive Products
+inactiveProducts: async (req, res)=>{
+    try {
+        const Products = await productModel.find({Status:false});
+        console.log(Products)
+        res.status(200).json({ message: "return your all product successfully", products: Products});
+    }
+    catch (error) {
+        console.log(error)
+        return res.status(500).json({message: `Internal Server Error ${error}`});
+    }
+},
 
 };
-export default  productController
+export default  productController;
+
+
+
+
+
+
+
+

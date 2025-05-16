@@ -10,7 +10,7 @@ const otpSchema = new mongoose.Schema({
         required:true,
         trim:true,
         default:"",
-    },
+    }, 
 },
 {
     versionKey:false,
@@ -21,3 +21,9 @@ const otpSchema = new mongoose.Schema({
 const otpModel = mongoose.model('otp', otpSchema);
 
 export default otpModel;
+
+
+
+
+
+

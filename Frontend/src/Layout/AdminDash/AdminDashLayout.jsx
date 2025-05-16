@@ -3,8 +3,6 @@ import { Link, Outlet} from "react-router-dom";
 import AdminDashHeader from '../../Components/AdminComp/AdminDashHeader';
 import AdminSidebar from '../../Components/AdminComp/AdminSidebar';
 
-
-
 const AdminDashLayout = () => {
   return (
     <>
