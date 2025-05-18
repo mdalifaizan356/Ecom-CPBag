@@ -1,6 +1,7 @@
 import express from "express";
 import userController from "../Controllers/userController.js";
-import verifyToken from "../middlewares/tokenVerification.js";
+import verifyToken from "../middlewares/TokenVarification.js";
+
 
 const router = express.Router();
 router.patch("/changepass", verifyToken, userController.changePass);

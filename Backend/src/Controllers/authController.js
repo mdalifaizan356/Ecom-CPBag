@@ -1,6 +1,5 @@
 import userModel from "../models/userModel.js";
 import otpModel from "../models/otpModel.js";
-import supplierModel from "../models/supplierModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -12,7 +11,7 @@ const authController ={
 //SignUp
     signUp: async (req, res)=>{ 
         try {
-            const { Name, Email, Password, OTP,  Role, BusinessName, GSTNumber, Category, PaymentMode} = req.body;
+            const { Name, Email, Password, OTP} = req.body;
 
             const userOTP = await otpModel.findOne({Email});
             if(userOTP){
@@ -25,32 +24,14 @@ const authController ={
             if (existingUser) return res.status(400).json({ message: "Email already registered!" });
 
             const hashedPassword = await bcrypt.hash(Password, 10);
-        
-              await newUser.save();
-        
-            let supplierId = null;
 
-            if (Role === "Supplier") {
-              if (!BusinessName || !GSTNumber||!Category||!PaymentMode) {
-                return res.status(400).json({ message: "All supplier details are required!" });
-              }
-        
-              const newSupplier = new supplierModel({
-                BusinessName,
-                GSTNumber,
-                Category,
-                PaymentMode,
-                User: newUser._id,
-              });
-        
-              const savedSupplier = await newSupplier.save();
-              supplierId = savedSupplier._id;
-        
-              newUser.SupplierDetails = supplierId;
-              await newUser.save();
-            }
-        
-            res.status(200).json({message: "User registered successfully!", SupplierId: supplierId });
+            const newUser =  new userModel({
+                Name,
+                Email,
+                Password: hashedPassword,
+            })
+            await newUser.save();
+            res.status(200).json({message: "Account Created Successfully!"});
           } catch (error) {
             console.error("Signup Error:", error);
             res.status(500).json({ message: "Internal Server Error" });
@@ -99,7 +80,7 @@ const authController ={
             }
             const hashedPassword = await bcrypt.hash(NewPassword, 10);
             await userModel.findOneAndUpdate({Email}, {Password:hashedPassword});
-            return res.status(200).json({message:"Reset Password Successfully"});
+            return res.status(200).json({message:"Password Update Successfully"});
         }
         catch (error) {
             return res.status(500).json({message: `Internal Server Error ${error}`});

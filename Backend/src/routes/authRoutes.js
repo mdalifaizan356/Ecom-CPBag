@@ -7,7 +7,7 @@ const router = express.Router();
 router.post("/sendotp", distributeOTP);
 router.post("/signup", authController.signUp);
 router.post("/login", authController.login);
-router.post("/resetpass", authController.resetPass);
+router.patch("/resetpass", authController.resetPass);
 
 
 export default router; 

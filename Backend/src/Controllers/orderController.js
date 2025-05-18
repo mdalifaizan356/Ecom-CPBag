@@ -2,11 +2,10 @@ import productModel from "../models/productModel.js";
 import wishlistModel from './../models/wishlistModel.js';
 import cartModel from './../models/cartModel.js';
 import orderModel from "../models/orderModel.js";
-import supplierModel from './../models/supplierModel.js';
 import userModel from './../models/userModel.js';
 import addressModel from './../models/addressModel.js';
-import productImageModel from "../models/productImgModel.js";
-import  uploadFile  from "../utilities/cloudinaryService.js";
+import uploadFile from "../utilities/cloudinaryServices.js";
+
 import inventoryModel from "../models/inventoryModel.js";
 
 const orderController ={

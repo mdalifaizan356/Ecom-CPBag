@@ -1,10 +1,10 @@
 import express from "express";
-import verifyToken from "../middlewares/tokenVerification.js";
+import verifyToken from "../middlewares/TokenVarification.js";
 import productController from './../controllers/productController.js';
 import wishlistController from "../controllers/wishlistController.js";
 import cartController from "../controllers/cartController.js";
 import orderController from "../controllers/orderController.js";
-import { uploadMemory } from "../middlewares/multerConfig.js";
+import { uploadMemory } from "../middlewares/multerCofig.js";
 import requestLogger from "../middlewares/logMiddleware.js";
 
 

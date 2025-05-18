@@ -10,13 +10,8 @@ const userSchema = new mongoose.Schema({
         required:true,
         trim:true,
     },
-    PhNo:{
-        type:Number,
-        default:"0"
-    },
     Role:{
         type:String,
-        required:true,
         trim:true,
         default:"User"
     },
@@ -27,12 +22,6 @@ const userSchema = new mongoose.Schema({
         },
     ProfilePic:{
         type:String,
-        default:"",
-    },
-    OTP:{
-        type:String,
-        // required:true,
-        trim:true,
         default:"",
     },
 },

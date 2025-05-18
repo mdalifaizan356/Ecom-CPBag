@@ -6,6 +6,10 @@ import { connectDB } from "./lib/db_connection.js";
 import authRoutes from "./routes/authRoutes.js"
 import userRoutes from "./routes/userRoutes.js"
 import productRoutes from "./routes/productRoutes.js"
+import cartRoutes from "./routes/cartRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
+import wishlistRoutes from "./routes/wishlistRoutes.js";
+
 
 dotenv.config();
 
@@ -28,6 +32,9 @@ app.use(
 app.use("/authroutes", authRoutes);
 app.use("/userroutes", userRoutes);
 app.use("/productroutes", productRoutes);
+app.use("/cartroutes", cartRoutes);
+app.use("/orderroutes", orderRoutes);
+app.use("/wishlistroutes", wishlistRoutes);
 
 
 
