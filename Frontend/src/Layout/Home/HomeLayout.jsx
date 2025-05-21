@@ -6,7 +6,7 @@ import HomeFooter from '../../Components/HomeComp/HomeFooter';
 
 const HomeLayout = () => {
   return (
-    <>
+    <> 
     <HomeHeader/>
     <main className='mt-16'>
       <Outlet/>

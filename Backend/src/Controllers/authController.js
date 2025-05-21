@@ -43,7 +43,7 @@ const authController ={
     login:async(req, res)=>{
         try {
             const {Email, Password} = req.body;
-            const user = await userModel.findOne({Email});
+            const user = await userModel.findOne({Email}); 
             if(!user){
                 return res.status(400).json({message: "Email Not Ragistered.!"});
             }

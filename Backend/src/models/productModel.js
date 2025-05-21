@@ -42,13 +42,8 @@ const productSchema = new mongoose.Schema(
             trim: true,
         },
         Images: {
-            type: [String], // array of image URLs
+            type: [String],
             required: true,
-        },
-        SupplierId:{
-            type: mongoose.Schema.Types.ObjectId, 
-            ref: "suppliers",
-            required: true 
         },
     },
     {
@@ -58,7 +53,7 @@ const productSchema = new mongoose.Schema(
 );
 
 const productModel = mongoose.model("products", productSchema);
-export default productModel;
+export default productModel; 
 
 
 

@@ -11,9 +11,9 @@ const AllProducts = () => {
 
   const getAllProduct = async () => {
     try {
-      const response = await axiosInstance.get(`/productroutes/allProducts`);
+      const response = await axiosInstance.get(`/productroutes/allproduct`);
       if (response.status === 200) {
-        const AllProducts = response.data.allProducts;
+        const AllProducts = response.data.products;
         setBags(AllProducts);
       }
     } catch (error) {
@@ -33,9 +33,11 @@ const AllProducts = () => {
     {/* head */}
     <thead>
       <tr>
+      <th></th>
         <th>Name</th>
-        <th>Price</th>
         <th>Brand</th>
+        <th>Price</th>
+        <th>Availability</th>
         <th>Action</th>
       </tr>
     </thead>
@@ -47,22 +49,27 @@ const AllProducts = () => {
             <div className="avatar">
               <div className="mask mask-squircle h-12 w-12">
                 <img
-      src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                    alt="Avatar Tailwind CSS Component" />
+                    src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp" alt="Avatar Tailwind CSS Component" />
               </div>
             </div>
-            <div>
-              <div className="font-bold">{bag.Name}</div>
-              <div className="text-sm opacity-50">Jaipur</div>
-            </div>
+            {/* <div> */}
+              {/* <div className="font-bold">{bag.ProductId.Name}</div> */}
+              {/* <div className="text-sm opacity-50">Good</div> */}
+            {/* </div> */}
           </div>
         </td>
         
         <td>
-        <div className="font-bold">{bag.Price}</div>
+        <div className="font-bold">{bag.ProductId.Name}</div>
         </td>
         <td>
-        <div className="font-bold">{bag.Brand}</div>
+        <div className="font-bold">{bag.ProductId.BrandName}</div>
+        </td>
+         <td>
+        <div className="font-bold">{bag.ProductId.Price}</div>
+        </td>
+         <td>
+        <div className="font-bold">{bag.ProductId.Stock}</div>
         </td>
         <th>
           <Link to={`editproduct/${bag._id}`} className="text-blue-500 btn btn-ghost btn-xs">Edit</Link>

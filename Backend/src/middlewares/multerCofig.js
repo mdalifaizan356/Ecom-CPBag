@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 // Ensure uploads folder exists
 const uploadPath = path.join(__dirname, '../uploads');
 if (!fs.existsSync(uploadPath)) {
-  fs.mkdirSync(uploadPath);
+  fs.mkdirSync(uploadPath); 
 }
 
 // 1. Disk Storage (for saving files on disk)

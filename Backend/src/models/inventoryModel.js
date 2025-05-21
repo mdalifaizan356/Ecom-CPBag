@@ -1,11 +1,6 @@
 import mongoose from "mongoose";
 
 const inventorySchema = new mongoose.Schema({
-    SupplierId:{
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: "users",
-        required: true 
-    },    
     ProductId:{
         type: mongoose.Schema.Types.ObjectId, 
         ref: "products",

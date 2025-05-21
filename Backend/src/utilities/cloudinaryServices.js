@@ -18,15 +18,15 @@ const uploadFile = async (files) => {
       const result = await new Promise((resolve, reject) => {
         const stream = cloudinary.uploader.upload_stream(
           {
-            folder: "your-folder-name", // Optional
-            resource_type: "auto", // Image, video, pdf, etc.
+            folder: "your-folder-name",
+            resource_type: "auto",
           },
           (error, result) => {
             if (error) return reject(error);
             resolve(result);
           }
         );
-        stream.end(file.buffer); // multer.memoryStorage should provide buffer
+        stream.end(file.buffer);
       });
 
       results.push(result);

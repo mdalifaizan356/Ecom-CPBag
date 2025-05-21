@@ -2,93 +2,47 @@ import productModel from "../models/productModel.js";
 import wishlistModel from './../models/wishlistModel.js';
 import cartModel from './../models/cartModel.js';
 import orderModel from "../models/orderModel.js";
-// import supplierModel from './../models/supplierModel.js';
 import userModel from './../models/userModel.js';
 import addressModel from './../models/addressModel.js';
-// import productImageModel from "../models/productImgModel.js";
 import uploadFile from "../utilities/cloudinaryServices.js";
 import inventoryModel from './../models/inventoryModel.js';
 
 const productController ={
-//Add Product
-    // addProduct: async (req, res)=>{ 
-    //     try {
-    //         const {id} = req.user;
-    //         const { Name, Size, Color, Price, BrandName, Description, Images, Stock} = req.body;
-    //         console.log(Name, Size, Color, Price, BrandName, Description, Images, Stock)
-    //         const newProduct = new productModel({
-    //             Name,
-    //             Size,
-    //             Color,
-    //             Price, 
-    //             BrandName,
-    //             Description,
-    //             Images,
-    //             Stock,
-    //             SupplierId: id,  
-    //         });
-    //         await newProduct.save();
-    //         console.log(newProduct);
-
-    //         const newInventoryProduct = new inventoryModel({
-    //             SupplierId: id,
-    //             ProductId: newProduct._id,
-    //             Quantity:newProduct.Stock,
-    //         });
-    //         await newInventoryProduct.save();
-    //         res.status(200).json({ message: "Product add successfully" });
-            
-    //     }
-    //     catch (error) {
-    //         console.log(error)
-    //         return res.status(500).json({message: `Internal Server Error ${error}`});
-    //     }
-    // },
-
 // Add Product
     addProduct: async (req, res) => {
     try {
         console.log(req.body);
         console.log(req.files);
-
-        const { id } = req.user;
+        const { role } = req.user;
+        if(role==="User"){
+           return res.status(400).json({ message: "You are not admin"});
+        }
         const { Name, Size, Color, Price, BrandName, Description, Stock } = req.body;
-
-        // Upload images to Cloudinary
         const uploadedImages = await uploadFile(req.files);
-
-        // Extract secure URLs
         const imageUrls = uploadedImages.map((img) => img.secure_url);
-
-        // Create and save product
         const newProduct = new productModel({
-        Name,
-        Size,
-        Color,
-        Price,
-        BrandName,
-        Description,
-        Images: imageUrls, // storing image URLs
-        Stock,
-        SupplierId: id,
+            Name,
+            Size,
+            Color,
+            Price,
+            BrandName,
+            Description,
+            Images: imageUrls,
+            Stock,
         });
-
         await newProduct.save();
-
         const newInventoryProduct = new inventoryModel({
-        SupplierId: id,
         ProductId: newProduct._id,
         Quantity: newProduct.Stock,
         });
-
         await newInventoryProduct.save();
-
         res.status(200).json({ message: "Product added successfully", product: newProduct });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: `Internal Server Error: ${error}` });
     }
     },
+
 
 // // All Product based on product model
 //     allProduct: async (req, res)=>{
@@ -120,8 +74,8 @@ allProduct: async (req, res)=>{
 },
 
 
-// supplierProduct
-    supplierProduct: async (req, res)=>{
+// Admin Product
+    adminProduct: async (req, res)=>{
         try {
             const {id} = req.user;
             const myProducts = await productModel.find({SupplierId:id});
