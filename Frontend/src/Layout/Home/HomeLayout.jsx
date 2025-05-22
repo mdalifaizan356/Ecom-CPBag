@@ -11,7 +11,7 @@ const HomeLayout = () => {
     <main className='mt-16'>
       <Outlet/>
     </main> 
-    {/* <HomeFooter/> */}
+    <HomeFooter/>
     </>
   )
 }

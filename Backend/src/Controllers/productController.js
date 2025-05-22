@@ -17,7 +17,7 @@ const productController ={
         if(role==="User"){
            return res.status(400).json({ message: "You are not admin"});
         }
-        const { Name, Size, Color, Price, BrandName, Description, Stock } = req.body;
+        const { Name, Size, Color, Price, BrandName, Description, Tag, Stock } = req.body;
         const uploadedImages = await uploadFile(req.files);
         const imageUrls = uploadedImages.map((img) => img.secure_url);
         const newProduct = new productModel({
@@ -27,6 +27,7 @@ const productController ={
             Price,
             BrandName,
             Description,
+            Tag,
             Images: imageUrls,
             Stock,
         });
@@ -93,7 +94,7 @@ allProduct: async (req, res)=>{
         try {
             const {ProductId} = req.params;
             console.log(ProductId);
-            await productModel.findByIdAndDelete(ProductId);
+            await inventoryModel.findByIdAndDelete(ProductId);
             res.status(200).json({ message: "Delete Product successfully"});
         }
         catch (error) {
@@ -127,6 +128,7 @@ allProduct: async (req, res)=>{
         try {
             const {ProductId} = req.params;
             const selectedProduct = await productModel.findById(ProductId);
+            console.log(">>>>>>>>>>>>>>Selected Product>>>>>>>>>>>>>>>>>",selectedProduct);
             res.status(200).json({ message: "Fetch selected product successfully", selectedProduct});
         }
         catch (error) {

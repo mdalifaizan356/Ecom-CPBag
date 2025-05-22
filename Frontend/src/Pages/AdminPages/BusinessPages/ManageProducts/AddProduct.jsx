@@ -12,6 +12,7 @@ const navigate = useNavigate();
     Color: "#000000",
     Price: "",
     Description: "",
+    Tag:"",
     Stock: "",
     Images: []
   });
@@ -55,6 +56,7 @@ const navigate = useNavigate();
           Color: "#000000",
           Price: "",
           Description: "",
+          Tag:"",
           Stock: "",
           Images: []
         });
@@ -148,6 +150,16 @@ const navigate = useNavigate();
               <div className="flex gap-2">
                 <div className="relative flex-1">
               <input type='text' name='Description'  value={formData.Description} className="input input-bordered input-dark w-full pl-10" onChange={handleChange} required/>
+                </div>
+              </div>
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text font-medium">Tag</span>
+              </label>
+              <div className="flex gap-2">
+                <div className="relative flex-1">
+              <input type='text' name='Tag'  value={formData.Tag} className="input input-bordered input-dark w-full pl-10" onChange={handleChange} required/>
                 </div>
               </div>
             </div>

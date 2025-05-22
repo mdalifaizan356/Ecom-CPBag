@@ -8,7 +8,7 @@ const HeroBanner = () => {
         <div
   className="hero min-h-screen"
   style={{
-    backgroundImage: "url(banner2.jpg)",
+    backgroundImage: "url(banner4.jpg)",
   }}>
   <div className="hero-overlay bg-opacity-60"></div>
   <div className="hero-content text-neutral-content text-center">

@@ -54,7 +54,7 @@ function App() {
           <Route path="adminsettings" element={<AdminSettings />} />
           <Route path="allusers" element={<AllUsers />} />
           <Route path="allproducts" element={<AllProducts />} />
-          <Route path="allproducts/editproduct/:id" element={<EditProduct/>} />
+          <Route path="allproducts/editproduct/:ProductId" element={<EditProduct/>} />
           <Route path="addproducts" element={<AddProduct />} />
         </Route>
         <Route path="*" element={<PNF />} />

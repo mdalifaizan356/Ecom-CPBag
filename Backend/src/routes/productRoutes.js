@@ -6,7 +6,7 @@ import cartController from "../controllers/cartController.js";
 import orderController from "../controllers/orderController.js";
 import { uploadMemory } from "../middlewares/multerCofig.js";
 import requestLogger from "../middlewares/logMiddleware.js";
-
+ 
 
 const router = express.Router();  
 router.post("/addproduct", verifyToken, uploadMemory, productController.addProduct);
