@@ -5,7 +5,7 @@ const HomeHeader = () => {
 
   return (
     <header
-      className="border-b border-base-300 fixed w-full top-0 z-40 backdrop-blur-lg bg-black">
+      className="border-b border-base-300 fixed w-full top-0 z-40 backdrop-blur-lg bg-white">
       <div className="container mx-auto px-4 h-16">
         <div className="flex items-center justify-between h-full">
           <div className="flex items-center gap-8">
@@ -17,8 +17,8 @@ const HomeHeader = () => {
             </Link>
           </div>
           <div className="flex items-center gap-2">
-            <Link to="/login" className={`btn btn-sm gap-2 transition-colors`}><Heart className="size-5" /><span className="hidden sm:inline">Wishlist</span></Link>
-            <Link to="/login" className={`btn btn-sm gap-2 transition-colors`}><ShoppingCart className="size-5" /><span className="hidden sm:inline">Cart</span></Link>
+            {/* <Link to="/login" className={`btn btn-sm gap-2 transition-colors`}><Heart className="size-5" /><span className="hidden sm:inline">Wishlist</span></Link> */}
+            {/* <Link to="/login" className={`btn btn-sm gap-2 transition-colors`}><ShoppingCart className="size-5" /><span className="hidden sm:inline">Cart</span></Link> */}
             <Link to="/login" className={`btn btn-sm gap-2 transition-colors`}><LogIn className="w-4 h-4" /><span className="hidden sm:inline">Login</span></Link>
           </div>
         </div>

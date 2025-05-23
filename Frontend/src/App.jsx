@@ -12,6 +12,7 @@ import PNF from './Pages/PNF';
 
 import UserDashLayout from './Layout/UserDash/UserDashLayout';
 import UserCart from './Pages/UserPages/UserCart';
+import UserWishlist from './Pages/UserPages/UserWishlist';
 import UserIndex from './Pages/UserPages/UserIndex';
 import UserAddress from './Pages/UserPages/UserAddress';
 import UserSetting from './Pages/UserPages/UserSetting';
@@ -42,7 +43,8 @@ function App() {
  
         <Route path="/userdashboard" element={<UserDashLayout />}>
           <Route index element={<UserIndex />} />
-          <Route path="usercart" element={<UserCart />} /> 
+          <Route path="usercart" element={<UserCart />} />
+          <Route path="userwishlist" element={<UserWishlist  />} />
           <Route path="userprofile" element={<UserProfile />} /> 
           <Route path="userorders" element={<UserOrders />} />
           <Route path="useraddress" element={<UserAddress />} />

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 const AdminDashHeader = () => {
   return (
     <>
-      <div className="navbar  fixed top-0 left-0 w-full bg-red-200 p-2 text-white z-50">
+      <div className="navbar  fixed top-0 left-0 w-full bg-blue-600 p-2  z-50">
   <div className="flex-1">
   <label htmlFor="my-drawer" className="btn btn-ghost lg:hidden">
       <svg
@@ -34,7 +34,7 @@ const AdminDashHeader = () => {
       </div>
       <ul
         tabIndex={0}
-        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-40 p-2 shadow">
+        className="menu menu-sm dropdown-content bg-blue-500 rounded-box z-[1] mt-5 w-40 p-2 shadow">
         <li><Link to="adminprofile" className="justify-between">Profile{/* <span className="badge">New</span> */}</Link></li>
         <li><Link to="adminsettings">Settings</Link></li>
         <li><Link to="/">Logout</Link></li>

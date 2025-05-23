@@ -1,7 +1,6 @@
 import express from "express";
 import verifyToken from "../middlewares/TokenVarification.js";
 import cartController from "../controllers/cartController.js";
-import productController from '../controllers/productController.js';
 import wishlistController from "../controllers/wishlistController.js";
 import orderController from "../controllers/orderController.js";
 

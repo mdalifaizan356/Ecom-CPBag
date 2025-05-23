@@ -13,11 +13,13 @@ addToCart: async (req, res)=>{
     try {
         const {id} = req.user;    
         const {ProductId} = req.params;
+        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>", ProductId);
+
         const product = await productModel.findById(ProductId);
         console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>", product);
         const newNewCartItem = new cartModel({
             BuyerId: id, 
-            ProductId:ProductId,
+            ProductId:ProductId, 
             amaountTotalQuantity: product.Price
         });
         await newNewCartItem.save();

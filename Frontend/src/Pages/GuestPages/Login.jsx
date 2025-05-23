@@ -28,6 +28,7 @@ const Login = () => {
     try {
       const response = await axiosInstance.post(`/authroutes/login`, formData);
       if (response.status === 200) {
+        localStorage.setItem("role", response.data.userRole);
         toast.success("Login Successful!");
          if (response.data.userRole === "Admin") {
           navigate("/admindashboard");

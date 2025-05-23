@@ -5,7 +5,7 @@ import { toast } from "react-hot-toast";
 import Loader from "../../Components/CommonComp/Loader.jsx";
 import {Trash2, ShoppingCart} from "lucide-react"
 
-const UserCart = () => {
+const UserWishlist = () => {
   const navigate = useNavigate();
   const [bags, setBags] = useState([]);
   const [refresh, setRefresh] = useState(false);
@@ -14,7 +14,7 @@ const UserCart = () => {
 
   const getAllProduct = async () => {
     try {
-      const response = await axiosInstance.get(`/cartroutes/cartproduct`);
+      const response = await axiosInstance.get(`/wishlistroutes/wishlistproduct`);
       if (response.status === 200) {
         const AllProducts = response.data.products;
         console.log(AllProducts)
@@ -35,14 +35,14 @@ const buyNow = async (ProductId) => {
   }; 
 
 
-  const deleteCartProduct = async (CartProductId) => {
+  const deleteWishlistProduct = async (WishlistProductId) => {
     if (Role === null) {
       navigate("/login");
       return;
     }
     try {
-      console.log(CartProductId);
-      const response = await axiosInstance.delete(`/cartroutes/deletecartproduct/${CartProductId}`);
+      console.log(WishlistProductId);
+      const response = await axiosInstance.delete(`/wishlistroutes/deletewishlistproduct/${WishlistProductId}`);
       setRefresh(!refresh);
       if (response.status === 200) {
         toast.success(response.data.message);
@@ -95,7 +95,7 @@ const buyNow = async (ProductId) => {
 
     </div>
     <div>
-      <button className="badge" onClick={()=> deleteCartProduct(bag._id)}><Trash2 color="red"/></button>
+      <button className="badge" onClick={()=> deleteWishlistProduct(bag._id)}><Trash2 color="red"/></button>
       <button className="badge" onClick={()=> addToCart(bag.ProductId._id)}><ShoppingCart/></button>
     </div>
     </div>
@@ -108,4 +108,4 @@ const buyNow = async (ProductId) => {
   );
 };
 
-export default UserCart;
+export default UserWishlist;
