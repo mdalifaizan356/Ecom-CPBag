@@ -53,15 +53,14 @@ const buyNow = async (ProductId) => {
     }
   };
 
-
-    const addToCart = async (ProductId) => {
+  const moveWishlistToCart = async (WishlistProductId) => {
     if (Role === null) {
       navigate("/login");
       return;
     }
     try {
-      console.log(ProductId);
-      const response = await axiosInstance.post(`/cartroutes/addtocart/${ProductId}`);
+      console.log(WishlistProductId);
+      const response = await axiosInstance.post(`/wishlistroutes/movewishlisttocart/${WishlistProductId}`);
       setRefresh(!refresh);
       if (response.status === 200) {
         toast.success(response.data.message);
@@ -73,12 +72,12 @@ const buyNow = async (ProductId) => {
   };
 
 
-
-
+  
   return (
     <>
       <div className="md:flex flex-wrap justify-center">
-      {bags.map((bag) => (
+      {bags.length > 0 ? (
+      bags.map((bag) => (
         <div key={bag._id || bag.ProductId._id} className="card bg-base-100 md:w-1/4 w-full shadow-sm border border-amber-950 mt-2 mb-2">
   <figure>
     <img
@@ -92,18 +91,21 @@ const buyNow = async (ProductId) => {
     <div className="card-actions justify-between">
     <div>
       <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition" onClick={buyNow}>Buy Now</button>
-
     </div>
     <div>
       <button className="badge" onClick={()=> deleteWishlistProduct(bag._id)}><Trash2 color="red"/></button>
-      <button className="badge" onClick={()=> addToCart(bag.ProductId._id)}><ShoppingCart/></button>
+      <button className="badge" onClick={()=> moveWishlistToCart(bag._id)}><ShoppingCart/></button>
     </div>
     </div>
   </div>
 </div>
-      ))}  
+      ))
+    ) : (
+      <div className="text-center py-10 min-h-[70vh]">
+        <h1 className="text-6xl">No Products in Wishlist!</h1>
       </div>
-
+    )}  
+      </div>
     </>
   );
 };

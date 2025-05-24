@@ -13,7 +13,7 @@ router.post("/movecarttowishlist/:CartProductId", verifyToken, cartController.mo
 router.get("/cartproduct", verifyToken, cartController.buyerCartProduct);
 router.delete("/deletecartproduct/:CartProductId", verifyToken, cartController.deleteCartProduct);
 
-
+ 
 
 
 

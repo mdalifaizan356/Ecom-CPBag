@@ -92,7 +92,7 @@ decreementCartProduct: async (req, res)=>{
         await cartModel.findByIdAndUpdate(CartProductId, {Quantity: decreementQuantity, amaountTotalQuantity:updateTotalQuantityAmount });
         res.status(200).json({ message: "less Quantity successfully"});
     }
-    catch (error) {
+    catch (error) { 
         console.log(error)
         return res.status(500).json({message: `Internal Server Error ${error}`});
     }
@@ -127,7 +127,7 @@ moveCartToWishlist: async (req, res)=>{
         });
         await NewWishItem.save();
         await cartModel.findByIdAndDelete(CartProductId);
-        res.status(200).json({ message: "Delete product successfully"});
+        res.status(200).json({ message: "Move  product in wishlist successfully"});
     }
     catch (error) {
         console.log(error)

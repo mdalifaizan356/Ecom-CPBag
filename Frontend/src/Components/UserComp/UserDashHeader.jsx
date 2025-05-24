@@ -7,7 +7,7 @@ const UserDashHeader = () => {
     <>
     <div className="navbar  fixed top-0 left-0 w-full bg-blue-600 p-2  z-50">
   <div className="flex-1">
-    <Link to="/admindashboard" className="btn btn-ghost text-xl">CP Bags</Link>
+    <Link to="/userdashboard" className="btn btn-ghost text-xl">CP Bags</Link>
   </div>
   <div className="flex items-center gap-2">
             <Link to="userwishlist" className={`btn btn-sm gap-2 transition-colors`}><Heart className="size-5" /><span className="hidden sm:inline">Wishlist</span></Link>
@@ -24,9 +24,9 @@ const UserDashHeader = () => {
       </div>
       <ul tabIndex={0} className="menu menu-sm dropdown-content bg-blue-500 rounded-box z-[1] mt-5 w-40 p-2 shadow">
         <li><Link to="adminprofile" className="justify-between">Profile</Link></li>
-        <li><Link to="adminprofile" className="justify-between">My Address</Link></li>
+        <li><Link to="useraddress" className="justify-between">My Address</Link></li>
         <li><Link to="/">Logout</Link></li>
-      </ul>
+      </ul> 
     </div>
   </div>
 </div>

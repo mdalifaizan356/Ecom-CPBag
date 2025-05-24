@@ -11,7 +11,7 @@ const UserDashLayout = () => {
       <main className='mt-18 lg:mt-18'>
         <Outlet />
       </main>
-      <HomeFooter/>
+      <HomeFooter/> 
     </>
   )
 }

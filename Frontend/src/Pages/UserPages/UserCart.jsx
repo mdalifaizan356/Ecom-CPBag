@@ -3,7 +3,7 @@ import axiosInstance from "../../lib/axios.js";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import Loader from "../../Components/CommonComp/Loader.jsx";
-import {Trash2, ShoppingCart} from "lucide-react"
+import {Trash2, ShoppingCart, Heart} from "lucide-react"
 
 const UserCart = () => {
   const navigate = useNavigate();
@@ -54,14 +54,14 @@ const buyNow = async (ProductId) => {
   };
 
 
-    const addToCart = async (ProductId) => {
+    const moveCartToWishlist = async (CartProductId) => {
     if (Role === null) {
       navigate("/login");
       return;
     }
     try {
-      console.log(ProductId);
-      const response = await axiosInstance.post(`/cartroutes/addtocart/${ProductId}`);
+      console.log(CartProductId);
+      const response = await axiosInstance.post(`/cartroutes/movecarttowishlist/${CartProductId}`);
       setRefresh(!refresh);
       if (response.status === 200) {
         toast.success(response.data.message);
@@ -73,12 +73,50 @@ const buyNow = async (ProductId) => {
   };
 
 
+      const increementCartProduct = async (CartProductId) => {
+    if (Role === null) {
+      navigate("/login");
+      return;
+    }
+    try {
+      console.log(CartProductId);
+      const response = await axiosInstance.patch(`/cartroutes/increementcartproduct/${CartProductId}`);
+      setRefresh(!refresh);
+      if (response.status === 200) {
+        // toast.success(response.data.message);
+      }
+    } catch (error) {
+      console.error("Error on add to cart product:", error);
+      toast.error("Failed to add product. Please try again.");
+    }
+  };
+
+
+      const decreementCartProduct = async (CartProductId) => {
+    if (Role === null) {
+      navigate("/login");
+      return;
+    }
+    try {
+      console.log(CartProductId);
+      const response = await axiosInstance.patch(`/cartroutes/decreementcartproduct/${CartProductId}`);
+      setRefresh(!refresh);
+      if (response.status === 200) {
+        // toast.success(response.data.message);
+      }
+    } catch (error) {
+      console.error("Error on add to cart product:", error);
+      toast.error("Failed to add product. Please try again.");
+    }
+  };
+
 
 
   return (
     <>
       <div className="md:flex flex-wrap justify-center">
-      {bags.map((bag) => (
+{bags.length > 0 ? (
+        bags.map((bag) => (
         <div key={bag._id || bag.ProductId._id} className="card bg-base-100 md:w-1/4 w-full shadow-sm border border-amber-950 mt-2 mb-2">
   <figure>
     <img
@@ -90,22 +128,35 @@ const buyNow = async (ProductId) => {
     <p>Price:  {bag.ProductId.Price}</p>
     <p>Availability: {bag.Status}</p>
     <div className="card-actions justify-between">
-    <div>
-      <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition" onClick={buyNow}>Buy Now</button>
-
+    <div className="flex">
+    {bag.Quantity>1?(
+      <button className="bg-orange-400 text-white px-4 py-2 rounded hover:bg-orange-700 transition" onClick={()=> decreementCartProduct(bag._id)}>-</button>
+    ):
+    (
+      <button className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition" onClick={()=> deleteCartProduct(bag._id)}><Trash2/></button>
+      
+    )} 
+      <p className="p-2">{bag.Quantity}</p>
+      <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition" onClick={()=> increementCartProduct(bag._id)}>+</button>
     </div>
     <div>
-      <button className="badge" onClick={()=> deleteCartProduct(bag._id)}><Trash2 color="red"/></button>
-      <button className="badge" onClick={()=> addToCart(bag.ProductId._id)}><ShoppingCart/></button>
+      {/* <button className="badge" onClick={()=> deleteCartProduct(bag._id)}><Trash2 color="red"/></button> */}
+      <button className="badge" onClick={()=> moveCartToWishlist(bag._id)}><Heart color="red"/></button>
     </div>
     </div>
+    <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition" onClick={buyNow}>Buy Now</button>
   </div>
 </div>
-      ))}  
+      ))
+      ):
+      (
+        <div className="text-center py-10 min-h-[70vh]">
+        <h1 className="text-6xl">No Products in Cart!</h1>
       </div>
-
+      )}
+      </div>
     </>
   );
 };
 
-export default UserCart;
+export default UserCart;  
