@@ -6,19 +6,27 @@ const addressSchema = new mongoose.Schema({
         ref: "users",
         required: true 
     },    
-    ReceiverName:{
+    FullName:{
         type:String,
         required:true
     },
-    ReceiverPhNo:{
-        type:Number,
+    Street:{
+        type:String,
         required:true
     },
-    PostalCode:{
-        type:Number,
+    HouseNumber:{
+        type:String,
         required:true
     },
-    City:{
+    Landmark:{
+        type:String,
+        required:true
+    },
+    CityTownVillage:{
+        type:String,
+        required:true
+    },
+    District:{
         type:String,
         required:true
     },
@@ -26,21 +34,17 @@ const addressSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    PinCode:{
+        type:Number,
+        required:true
+    },
+    PhoneNumber:{
+        type:Number,
+        required:true
+    },
     Country:{
         type:String,
-        required:true
-    },
-    Address:{
-        type:String,
-        required:true
-    },
-    Apartment:{
-        type:String,
-        required:true
-    },
-    LandMark:{
-        type:String,
-        required:true
+        default: "India"
     },
 },
 {

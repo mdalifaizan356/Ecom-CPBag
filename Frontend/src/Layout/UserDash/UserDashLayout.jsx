@@ -8,7 +8,7 @@ const UserDashLayout = () => {
   return (
     <>
       <UserDashHeader/>
-      <main className='mt-18 lg:mt-18'>
+      <main className='mt-16 lg:mt-16'>
         <Outlet />
       </main>
       <HomeFooter/> 

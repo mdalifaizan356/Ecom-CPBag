@@ -32,19 +32,19 @@ const userController ={
     addAddress: async (req, res)=>{ 
         try {
             const {id} = req.user;
-            const { ReceiverName,ReceiverPhNo,PostalCode,City,State,Country,Address,Apartment, LandMark} = req.body;
-            console.log(ReceiverName,ReceiverPhNo,PostalCode,City,State,Country,Address,Apartment, LandMark);
+            const {FullName,Street, HouseNumber, Landmark, CityTownVillage, District, State, PinCode, PhoneNumber } = req.body;
+            console.log(FullName,Street, HouseNumber, Landmark, CityTownVillage, District, State, PinCode, PhoneNumber);
             const newAddress = new addressModel({
                 userId: id, 
-                ReceiverName,
-                ReceiverPhNo,
-                PostalCode,
-                City,
+                FullName,
+                Street,
+                HouseNumber,
+                Landmark,
+                CityTownVillage,
+                District,
                 State,
-                Country,
-                Address,
-                Apartment,
-                LandMark,
+                PinCode,
+                PhoneNumber
             });
             await newAddress.save();
             res.status(200).json({ message: "Address added successfully" });
@@ -56,7 +56,7 @@ const userController ={
         }
     },
 
-
+ 
 // All Address
     myAddress: async (req, res)=>{
         try {
@@ -112,3 +112,6 @@ editSelectedAddress: async (req, res)=>{
 
 };
 export default  userController;
+
+
+
