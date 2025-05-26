@@ -18,6 +18,7 @@ import UserAddress from './Pages/UserPages/UserAddress';
 import UserSetting from './Pages/UserPages/UserSetting';
 import UserProfile from './Pages/UserPages/UserProfile';
 import UserOrders from './Pages/UserPages/UserOrders';
+import Checkout from './Pages/UserPages/Checkout';
 
 import AdminDashLayout from './Layout/AdminDash/AdminDashLayout';
 import AdminIndex from './Pages/AdminPages/PersonalPages/AdminIndex';
@@ -27,6 +28,7 @@ import AllUsers from './Pages/AdminPages/BusinessPages/ManageUsers/AllUsers';
 import AllProducts from './Pages/AdminPages/BusinessPages/ManageProducts/AllProducts';
 import AddProduct from './Pages/AdminPages/BusinessPages/ManageProducts/AddProduct';
 import EditProduct from './Pages/AdminPages/BusinessPages/ManageProducts/EditProduct';
+
 
 
 function App() {
@@ -41,7 +43,7 @@ function App() {
         <Route path="/signup" element={<SignUp/>}/>
         <Route path="/resetpassword" element={<ResetPassword/>}/>
  
-        <Route path="/userdashboard" element={<UserDashLayout />}>
+        <Route path="/userdashboard" element={<UserDashLayout />}> 
           <Route index element={<UserIndex />} />
           <Route path="usercart" element={<UserCart />} />
           <Route path="userwishlist" element={<UserWishlist  />} />
@@ -49,6 +51,7 @@ function App() {
           <Route path="userorders" element={<UserOrders />} />
           <Route path="useraddress" element={<UserAddress />} />
           <Route path="usersettings" element={<UserSetting />} />
+          <Route path="checkout" element={<Checkout />} />
         </Route>
         <Route path="/admindashboard" element={<AdminDashLayout />}>
           <Route index element={<AdminIndex />} />

@@ -162,13 +162,14 @@ const SignUp = () => {
 
            
             <div className="flex justify-around form-control mt-6">
-            <button type="submit" className="btn btn-primary w-full" disabled={!isFormValid}>
+            <button type="submit" className="btn btn-primary w-full" >Create Account</button>
+            {/* <button type="submit" className="btn btn-primary w-full" disabled={!isFormValid}>
               {isFormValid ? (
                 "Create Account"
               ) : (
                 "Fill Form"
               )}
-            </button>
+            </button> */}
         </div>
           </form>
 

@@ -105,13 +105,14 @@ const Login = () => {
 
         
         <div className="flex justify-around form-control mt-6">
-        <button type="submit" className="btn btn-primary w-full" disabled={!isFormValid}>
+        <button type="submit" className="btn btn-primary w-full">LogIn</button>
+        {/* <button type="submit" className="btn btn-primary w-full" disabled={!isFormValid}>
           {isFormValid ? (
             "LogIn"
           ) : (
             "Fill Form"
           )}
-        </button>
+        </button> */}
     </div>
       </form>
       <div className="text-center">

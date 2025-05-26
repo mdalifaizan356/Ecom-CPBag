@@ -25,6 +25,7 @@ const UserDashHeader = () => {
       <ul tabIndex={0} className="menu menu-sm dropdown-content bg-blue-500 rounded-box z-[1] mt-5 w-40 p-2 shadow">
         <li><Link to="adminprofile" className="justify-between">Profile</Link></li>
         <li><Link to="useraddress" className="justify-between">My Address</Link></li>
+        <li><Link to="userorders" className="justify-between">My Orders</Link></li>
         <li><Link to="/">Logout</Link></li>
       </ul> 
     </div>

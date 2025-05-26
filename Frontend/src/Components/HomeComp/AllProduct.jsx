@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../lib/axios.js";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import { toast } from "react-hot-toast";
 import Loader from "../../Components/CommonComp/Loader.jsx";
 import {Heart, ShoppingCart} from "lucide-react"
@@ -29,11 +29,6 @@ const AllProducts = () => {
   useEffect(() => {
     getAllProduct();
   }, [refresh]);
-
-const buyNow = async (ProductId) => {
-    toast.error("Please Add to cart");
-  }; 
-
 
   const addToCart = async (ProductId) => {
     if (Role === null) {
@@ -70,6 +65,16 @@ const buyNow = async (ProductId) => {
     }
   };
 
+  const buyNow = async(Product)=>{
+    navigate("checkout", {
+      state: {
+        Products: Product,
+        Quantity:1
+      }
+    })
+  }
+  
+
   return (
     <>
       <div className="md:flex flex-wrap justify-center">
@@ -86,7 +91,7 @@ const buyNow = async (ProductId) => {
     <p>Availability: {bag.Status}</p>
     <div className="card-actions justify-between">
     <div>
-      <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition" onClick={buyNow}>Buy Now</button>
+      <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition" onClick={()=> buyNow(bag)}>Buy Now</button>
 
     </div>
     <div>

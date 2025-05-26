@@ -3,18 +3,18 @@ import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from '../../lib/axios.js';
 import { toast } from 'react-hot-toast';
 
-const UpdateAddresForm = ({updateFormVisiblitity, setUpdateFormVisiblitity}) => {
+const AddressForm = ({refresh, setRefresh, updateFormVisiblitity, setUpdateFormVisiblitity, address}) => {
 const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    FullName: "",
-    Street: "",
-    HouseNumber: "",
-    Landmark: "",
-    CityTownVillage: "",
-    District:"",
-    State: "",
-    PinCode:"",
-    PhoneNumber:"",
+    FullName: address.FullName,
+    Street: address.Street,
+    HouseNumber: address.HouseNumber,
+    Landmark: address.Landmark,
+    CityTownVillage: address.CityTownVillage,
+    District: address.District,
+    State: address.State,
+    PinCode: address.PinCode,
+    PhoneNumber: address.PhoneNumber,
   });
 
   const handleChange = (e) => {
@@ -25,20 +25,12 @@ const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axiosInstance.post(`/userroutes/addaddress`, formData);
+      const response = await axiosInstance.patch(`/userroutes/editselectedaddress/${address._id}`, formData);
       if (response.status === 200) {
         toast.success(response.data.message);
-        setFormData({
-            FullName: "",
-            Street: "",
-            HouseNumber: "",
-            Landmark: "",
-            CityTownVillage: "",
-            District:"",
-            State: "",
-            PinCode:"",
-            PhoneNumber:"",
-        });
+        setUpdateFormVisiblitity(!updateFormVisiblitity);
+        setRefresh(!refresh)
+
       }
     } catch (error) {
       console.error(error);
@@ -52,7 +44,7 @@ const navigate = useNavigate();
         <div className="w-full max-w-md space-y-8 ">
           <div className="text-center mb-8">
             <div className="flex flex-col items-center gap-2 group">
-              <h1 className="text-2xl font-bold mt-2">Edit address</h1>
+              <h1 className="text-2xl font-bold mt-2">Edit Address</h1>
             </div>
           </div>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -147,7 +139,7 @@ const navigate = useNavigate();
               </div>
             </div>
             <div className="form-control mt-6">
-              <button type="submit" className="btn btn-primary w-full" >Add</button>
+              <button type="submit" className="btn btn-primary w-full mb-2" >Add</button>
             </div>
           </form>
           <button type="submit" className="btn btn-error w-full" onClick={() => (setUpdateFormVisiblitity(!updateFormVisiblitity))}>Cancel</button>
@@ -157,4 +149,4 @@ const navigate = useNavigate();
   )
 }
 
-export default UpdateAddresForm
+export default AddressForm

@@ -99,8 +99,8 @@ fetchSelectedAddress: async (req, res)=>{
 editSelectedAddress: async (req, res)=>{
         try {
             const {AddressId} = req.params;
-            const { ReceiverName,ReceiverPhNo,PostalCode,City,State,Country,Address,Apartment, LandMark} = req.body;
-            await addressModel.findByIdAndUpdate(AddressId, {ReceiverName,ReceiverPhNo,PostalCode,City,State,Country,Address,Apartment, LandMark});
+            const { FullName,Street, HouseNumber, Landmark, CityTownVillage, District, State, PinCode, PhoneNumber} = req.body;
+            await addressModel.findByIdAndUpdate(AddressId, {FullName,Street, HouseNumber, Landmark, CityTownVillage, District, State, PinCode, PhoneNumber});
             res.status(200).json({ message: "Update Address successfully"});
         }
         catch (error) {

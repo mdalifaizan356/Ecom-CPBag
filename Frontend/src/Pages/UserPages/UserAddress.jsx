@@ -42,35 +42,16 @@ const UserAddress = () => {
   };
 
   return (
-    <>
-      {formVisiblitity ? (
-        <AddressForm
-          formVisiblitity={formVisiblitity}
-          setFormVisiblitity={setFormVisiblitity}
-          setRefresh={setRefresh}
-          refresh={refresh}
-        />
-      ) : updateFormVisiblitity ? (
-        <UpdateAddresForm
-          updateFormVisiblitity={updateFormVisiblitity}
-          setUpdateFormVisiblitity={setUpdateFormVisiblitity}
-          address={selectedAddress} // 🆕
-          setRefresh={setRefresh}
-          refresh={refresh}
-        />
-      ) : (
+  <>
+    {formVisiblitity ? (<AddressForm formVisiblitity={formVisiblitity} setFormVisiblitity={setFormVisiblitity}/>) : updateFormVisiblitity ? (
+        <UpdateAddresForm refresh={refresh} setRefresh={setRefresh} updateFormVisiblitity={updateFormVisiblitity} setUpdateFormVisiblitity={setUpdateFormVisiblitity} address={selectedAddress}/>
+        ) : (
         <div className="flex flex-wrap justify-center gap-2 p-4 min-h-[70vh]">
-          {/* Add New Address Card */}
-          <div
-            onClick={() => setFormVisiblitity(true)}
-            className="card w-72 bg-base-100 shadow-md border border-dashed border-gray-400 flex items-center justify-center cursor-pointer p-4 hover:border-blue-600 transition h-[70vh]"
-          >
+          <div onClick={() => setFormVisiblitity(true)} className="card w-72 bg-base-100 shadow-md border border-dashed border-gray-400 flex items-center justify-center cursor-pointer p-4 hover:border-blue-600 transition h-[70vh]">
             <div className="text-center">
               <p className="text-xl font-semibold text-blue-600">+ Add New Address</p>
             </div>
           </div>
-
-          {/* All Saved Addresses */}
           {addresses.map((address) => (
             <div key={address._id} className="card w-72 bg-base-100 shadow-md border border-amber-950 p-1">
               <div className="card-body bg-emerald-100">
@@ -80,22 +61,8 @@ const UserAddress = () => {
                 <p>{address.District}, {address.State}, {address.PinCode}</p>
                 <p>{address.Country}, {address.PhoneNumber}</p>
                 <div className="card-actions justify-center mt-5">
-                  <button
-                    className="badge hover:bg-blue-700"
-                    onClick={() => {
-                      setSelectedAddress(address);
-                      setUpdateFormVisiblitity(true);
-                    }}
-                  >
-                    <SquarePen />
-                  </button>
-                  ||
-                  <button
-                    className="badge hover:bg-blue-700"
-                    onClick={() => deleteAddress(address._id)}
-                  >
-                    <Trash2 />
-                  </button>
+                  <button className="badge hover:bg-blue-700" onClick={() => {setSelectedAddress(address); setUpdateFormVisiblitity(true)}}><SquarePen /></button>||
+                  <button className="badge hover:bg-blue-700" onClick={() => deleteAddress(address._id)}><Trash2 /></button>
                 </div>
               </div>
             </div>
