@@ -9,7 +9,7 @@ const AllProducts = () => {
   const navigate = useNavigate();
   const [bags, setBags] = useState([]);
   const [refresh, setRefresh] = useState(false);
-
+ 
   const Role = localStorage.getItem("role");
 
   const getAllProduct = async () => {
@@ -65,14 +65,19 @@ const AllProducts = () => {
     }
   };
 
-  const buyNow = async(Product)=>{
-    navigate("checkout", {
-      state: {
-        Products: Product,
-        Quantity:1
-      }
-    })
-  }
+  const buyNow = async (bag) => {
+  navigate("createorder", {
+    state: {
+      cartItems: [
+        {
+          ...bag,
+          Quantity: 1,
+        },
+      ],
+    },
+  });
+};
+  
   
 
   return (

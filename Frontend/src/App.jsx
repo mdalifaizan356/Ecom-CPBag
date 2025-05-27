@@ -19,6 +19,7 @@ import UserSetting from './Pages/UserPages/UserSetting';
 import UserProfile from './Pages/UserPages/UserProfile';
 import UserOrders from './Pages/UserPages/UserOrders';
 import Checkout from './Pages/UserPages/Checkout';
+import CreateOrder from './Pages/UserPages/CreateOrder';
 
 import AdminDashLayout from './Layout/AdminDash/AdminDashLayout';
 import AdminIndex from './Pages/AdminPages/PersonalPages/AdminIndex';
@@ -28,6 +29,7 @@ import AllUsers from './Pages/AdminPages/BusinessPages/ManageUsers/AllUsers';
 import AllProducts from './Pages/AdminPages/BusinessPages/ManageProducts/AllProducts';
 import AddProduct from './Pages/AdminPages/BusinessPages/ManageProducts/AddProduct';
 import EditProduct from './Pages/AdminPages/BusinessPages/ManageProducts/EditProduct';
+
 
 
 
@@ -52,7 +54,9 @@ function App() {
           <Route path="useraddress" element={<UserAddress />} />
           <Route path="usersettings" element={<UserSetting />} />
           <Route path="checkout" element={<Checkout />} />
+          <Route path="createorder" element={<CreateOrder/>} />
         </Route>
+
         <Route path="/admindashboard" element={<AdminDashLayout />}>
           <Route index element={<AdminIndex />} />
           <Route path="adminprofile" element={<AdminProfile />} /> 

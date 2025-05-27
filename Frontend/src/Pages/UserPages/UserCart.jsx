@@ -30,10 +30,6 @@ const UserCart = () => {
     getAllProduct();
   }, [refresh]);
 
-const buyNow = async (ProductId) => {
-    toast.error("Please Add to cart");
-  }; 
-
 
   const deleteCartProduct = async (CartProductId) => {
     if (Role === null) {
@@ -111,42 +107,81 @@ const buyNow = async (ProductId) => {
   };
 
 
+  const buyNow = async (bag) => {
+  navigate("/userdashboard/checkout", {
+    state: {
+      cartItems: [
+        {
+          ...bag,
+          Quantity: 1,
+        },
+      ],
+    },
+  });
+};
+
+
+// const createOrder = (bags) => {
+//   navigate("/userdashboard/checkout", {
+//     state: {
+//       cartItems: [
+//         {
+//           ...bags,
+//         },
+//       ],
+//     },
+//   });
+// };
+
+
+const createOrder = () => {
+    // Quantity check karo ya default 1 set karo
+    const itemsWithQty = bags.map((bag) => ({
+      ...bag,
+      Quantity: bag.Quantity || 1,
+    }));
+
+    navigate("/userdashboard/createorder", {
+      state: {
+        cartItems: itemsWithQty,
+      },
+    });
+  };
 
   return (
     <>
-      <div className="md:flex flex-wrap justify-center">
-{bags.length > 0 ? (
+      <div className="md:flex flex-wrap justify-between">
+      <div className="md:flex flex-wrap justify-center md:w-3/4">
+        {bags.length > 0 ? (
         bags.map((bag) => (
-        <div key={bag._id || bag.ProductId._id} className="card bg-base-100 md:w-1/4 w-full shadow-sm border border-amber-950 mt-2 mb-2">
-  <figure>
-    <img
-      src={bag.ProductId.Images[0]}
-      alt="Shoes" />
-  </figure>
-  <div className="card-body">
-    <h2 className="card-title">{bag.ProductId.Name}<div className="badge badge-secondary">{bag.ProductId.Tag}</div></h2>
-    <p>Price:  {bag.ProductId.Price}</p>
-    <p>Availability: {bag.Status}</p>
-    <div className="card-actions justify-between">
-    <div className="flex">
-    {bag.Quantity>1?(
-      <button className="bg-orange-400 text-white px-4 py-2 rounded hover:bg-orange-700 transition" onClick={()=> decreementCartProduct(bag._id)}>-</button>
-    ):
-    (
-      <button className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition" onClick={()=> deleteCartProduct(bag._id)}><Trash2/></button>
-      
-    )} 
-      <p className="p-2">{bag.Quantity}</p>
-      <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition" onClick={()=> increementCartProduct(bag._id)}>+</button>
-    </div>
-    <div>
-      {/* <button className="badge" onClick={()=> deleteCartProduct(bag._id)}><Trash2 color="red"/></button> */}
-      <button className="badge" onClick={()=> moveCartToWishlist(bag._id)}><Heart color="red"/></button>
-    </div>
-    </div>
-    <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition" onClick={buyNow}>Buy Now</button>
-  </div>
-</div>
+        <div key={bag._id || bag.ProductId._id}   className="flex flex-col md:flex-row justify-between card bg-base-100 w-full shadow-sm border border-amber-950 mt-2 mb-2">
+          <div className="md:w-1/4">
+          <figure><img src={bag.ProductId.Images[0]} alt="Shoes" /></figure>
+        </div>
+        <div className="md:w-3/4">
+          <div className="card-body">
+            <h2 className="card-title">{bag.ProductId.Name}<div className="badge badge-secondary">{bag.ProductId.Tag}</div></h2>
+            <p>Price:  {bag.ProductId.Price}</p>
+            <p>Availability: {bag.Status}</p>
+            <div className="card-actions justify-between">
+              <div className="flex">
+                {bag.Quantity>1?(
+                  <button className="bg-orange-400 text-white px-4 py-2 rounded hover:bg-orange-700 transition" onClick={()=> decreementCartProduct(bag._id)}>-</button>
+                ):
+                (
+                  <button className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition" onClick={()=> deleteCartProduct(bag._id)}><Trash2/></button>          
+                )} 
+                  <p className="p-2">{bag.Quantity}</p>
+                  <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition" onClick={()=> increementCartProduct(bag._id)}>+</button>
+                </div>
+                <div>
+                  <button className="badge" onClick={()=> moveCartToWishlist(bag._id)}><Heart color="red"/></button>
+                </div>
+                </div>
+                  <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition" onClick={()=> buyNow(bag)}>Buy Only This</button>
+                </div>
+        </div>
+        </div>
       ))
       ):
       (
@@ -154,6 +189,22 @@ const buyNow = async (ProductId) => {
         <h1 className="text-6xl">No Products in Cart!</h1>
       </div>
       )}
+      </div>
+      <div className="md:flex flex-wrap justify-center md:w-1/4">
+         {bags.length > 0 && (
+        <div className="w-full md:w-3/4 mx-auto mt-8 p-6 bg-white rounded shadow border border-gray-200">
+          <h2 className="text-2xl font-bold mb-4">Cart Summary</h2>
+          <p className="text-lg mb-1">Total Items: </p>
+          <p className="text-lg mb-4">Total Price: ₹</p>
+          <button
+          onClick={createOrder}
+            className="bg-emerald-600 text-white px-6 py-2 rounded hover:bg-emerald-700 transition"
+          >
+            Create Order
+          </button>
+        </div>
+      )}
+      </div>
       </div>
     </>
   );
