@@ -39,7 +39,7 @@ const CreateOrder = () => {
 
   const total = products.reduce((sum, item) => sum + item.ProductId.Price * item.Quantity, 0);
   
-const [selectedAddressId, setSelectedAddressId] = useState(null);
+const [selectedAddress, setSelectedAddress] = useState(null);
   const [addresses, setAddresses] = useState([]);
   const getAllAddress = async () => {
       try {
@@ -81,7 +81,7 @@ const [selectedAddressId, setSelectedAddressId] = useState(null);
   };
 
   return (
-  <div className="max-w-2xl mx-auto p-4 border min-h-screen">
+  <div className="md:w-full mx-auto p-4 min-h-screen">
     <h2 className="text-2xl font-bold mb-4">Step {step}</h2>
       {step === 1 && (
         <div className="max-w-3xl mx-auto p-4 border border-amber-300 min-h-screen">
@@ -114,11 +114,19 @@ const [selectedAddressId, setSelectedAddressId] = useState(null);
           <h3 className="font-semibold mb-2">Choose Address</h3>
           {addresses.map((address) => (
           <div key={address._id} className="border p-2 rounded my-2">
-            <label className="flex items-center gap-2">
-              <input type="radio" name="selectedAddress" value={address._id} checked={selectedAddressId === address._id} onChange={() => setSelectedAddressId(address._id)} />
-              <span>{address.FullName}, {address.Street}, {address.City}, {address.Pincode}</span>
-            </label>
-          </div>        
+      <label className="flex items-center gap-2">
+        <input
+          type="radio"
+          name="selectedAddress"
+          value={address._id}
+          checked={selectedAddress?._id === address._id}
+          onChange={() => setSelectedAddress(address)}
+        />
+        <span>
+          {address.FullName}, {address.Street}, {address.City}, {address.Pincode}
+        </span>
+      </label>
+    </div>
           ))}
           <div className="flex justify-between">
             <button onClick={() => setStep(1)} className="bg-gray-400 text-white px-4 py-2 rounded">Back</button>
@@ -136,7 +144,7 @@ const [selectedAddressId, setSelectedAddressId] = useState(null);
               <input type="radio" name="payment" value="COD" checked={paymentMethod === "COD"} onChange={(e) => setPaymentMethod(e.target.value)}/>Cash on Delivery</label>
           </div>
           <div className="flex justify-between">
-            <button onClick={() => setStep(3)} className="bg-gray-400 text-white px-4 py-2 rounded">Back</button>
+            <button onClick={() => setStep(2)} className="bg-gray-400 text-white px-4 py-2 rounded">Back</button>
             <button onClick={() => setStep(4)} className="bg-blue-600 text-white px-4 py-2 rounded">Next</button>
           </div>
         </div>
@@ -146,17 +154,30 @@ const [selectedAddressId, setSelectedAddressId] = useState(null);
       {step === 4 && (
         <div>
           <h3 className="font-semibold mb-2">Review Order</h3>
-          <p><strong>Name:</strong> {selectedAddressId}</p>
-          <p><strong>Product</strong> {selectedAddressId}</p>
-          <p><strong>Payment:</strong> {paymentMethod}</p>
-          <h4 className="mt-4 font-semibold">Items:</h4>
-          {cartItems.map((item, index) => (
-            <div key={index} className="md:w-1/4">
-          <figure><img src={item.ProductId.Images[0]} alt="Shoes" /></figure>X{item.Quantity} = ₹{item.ProductId.Price * item.Quantity}
-          {/* <p key={index}>{item.ProductId.Images[0]} × {item.Quantity} = ₹{item.ProductId.Price * item.Quantity}</p> */}
-        </div>
-          ))}
-          <h3 className="mt-4 font-bold">Total: ₹{total}</h3>
+          <div>
+            <div className="flex overflow-x-auto gap-4 mb-5 mt-5 px-2 py-4">
+  {cartItems.map((item, index) => (
+    <div key={index} className="min-w-[45%] flex-shrink-0 border border-red-700 p-2 rounded">
+      <div className="mb-2">
+        <figure>
+          <img src={item.ProductId.Images[0]} alt="Product" className="w-full h-32 object-contain" />
+        </figure>
+      </div>
+      <div className="p-1">
+        <p>Quantity: {item.Quantity}</p>
+        <p>₹{item.ProductId.Price * item.Quantity}</p>
+      </div>
+    </div>
+  ))}
+</div>
+          <div>
+            <p><strong>Product</strong><span>{selectedAddress.FullName}, {selectedAddress.Street}, {selectedAddress.City}, {selectedAddress.Pincode}</span></p>
+            <p><strong>Payment:</strong> {paymentMethod}</p>
+          </div>
+          <div>
+             <h3 className="mt-4 font-bold">Total: ₹{total}</h3>
+          </div>
+          </div>
           <div className="flex justify-between mt-4">
             <button onClick={() => setStep(2)} className="bg-gray-400 text-white px-4 py-2 rounded">Back</button>
             <button onClick={handlePlaceOrder} className="bg-green-600 text-white px-4 py-2 rounded">Place Order</button>
