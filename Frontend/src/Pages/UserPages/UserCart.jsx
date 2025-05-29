@@ -120,22 +120,7 @@ const UserCart = () => {
   });
 };
 
-
-// const createOrder = (bags) => {
-//   navigate("/userdashboard/checkout", {
-//     state: {
-//       cartItems: [
-//         {
-//           ...bags,
-//         },
-//       ],
-//     },
-//   });
-// };
-
-
 const createOrder = () => {
-    // Quantity check karo ya default 1 set karo
     const itemsWithQty = bags.map((bag) => ({
       ...bag,
       Quantity: bag.Quantity || 1,
@@ -148,10 +133,20 @@ const createOrder = () => {
     });
   };
 
+
+  const totalPrice = ()=>{
+    let total = 0;
+    for (let i = 0; i < bags.length; i++) {
+      const qty = bags[i].Quantity || 1;
+      total += bags[i].ProductId.Price * qty;
+    }
+    return total;
+  }
+
   return (
     <>
-      <div className="md:flex flex-wrap justify-between">
-      <div className="md:flex flex-wrap justify-center md:w-3/4">
+      <div className="md:flex flex-wrap justify-between ">
+      <div className="md:flex flex-wrap justify-center md:w-3/4 min-h-screen">
         {bags.length > 0 ? (
         bags.map((bag) => (
         <div key={bag._id || bag.ProductId._id}   className="flex flex-col md:flex-row justify-between card bg-base-100 w-full shadow-sm border border-amber-950 mt-2 mb-2">
@@ -194,8 +189,8 @@ const createOrder = () => {
          {bags.length > 0 && (
         <div className="w-full md:w-3/4 mx-auto mt-8 p-6 bg-white rounded shadow border border-gray-200">
           <h2 className="text-2xl font-bold mb-4">Cart Summary</h2>
-          <p className="text-lg mb-1">Total Items: </p>
-          <p className="text-lg mb-4">Total Price: ₹</p>
+          <p className="text-lg mb-1">Total Items: {bags.length}</p>
+          <p className="text-lg mb-4">Total Price: {totalPrice()}</p>
           <button
           onClick={createOrder}
             className="bg-emerald-600 text-white px-6 py-2 rounded hover:bg-emerald-700 transition"
