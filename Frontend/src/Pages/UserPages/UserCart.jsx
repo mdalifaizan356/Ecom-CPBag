@@ -69,7 +69,7 @@ const UserCart = () => {
   };
 
 
-      const increementCartProduct = async (CartProductId) => {
+    const increementCartProduct = async (CartProductId) => {
     if (Role === null) {
       navigate("/login");
       return;
@@ -108,12 +108,12 @@ const UserCart = () => {
 
 
   const buyNow = async (bag) => {
-  navigate("/userdashboard/checkout", {
+  navigate("/userdashboard/createOrder", {
     state: {
       cartItems: [
         {
           ...bag,
-          Quantity: 1,
+          Quantity: bag.Quantity || 1,
         },
       ],
     },

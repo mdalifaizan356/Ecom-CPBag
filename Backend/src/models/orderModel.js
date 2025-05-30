@@ -5,10 +5,10 @@ const orderSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "users"
     },
-    products: [{
+    Products: [{
         productId: { type: mongoose.Schema.Types.ObjectId, ref: "products" },
         quantity: Number,
-        price: Number,
+        amountTotalQuantity: Number,
     }],
     BuyerAddress:{
         type: mongoose.Schema.Types.ObjectId,
@@ -17,7 +17,7 @@ const orderSchema = new mongoose.Schema({
     PaymentMode:{
         type:String
     },
-    TotalAmount:{
+    GrandTotal:{
         type:Number
     },
     Status: {
@@ -26,13 +26,15 @@ const orderSchema = new mongoose.Schema({
         default: "Pending"
     },
     isPaid: {
-        type:Boolean
+        type:Boolean,
+        default: false,
     },
     paidAt:{
         type:Date
     },
     isDelivered:{
-        type:Boolean
+        type:Boolean, 
+        default: false,
     },
     deliveredAt:{
         type:Date

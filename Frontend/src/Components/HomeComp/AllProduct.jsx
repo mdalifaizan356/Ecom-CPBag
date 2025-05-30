@@ -66,7 +66,11 @@ const AllProducts = () => {
   };
 
   const buyNow = async (bag) => {
-  navigate("createorder", {
+    if (Role === null) {
+      navigate("/login");
+      return;
+    }
+    navigate("/userdashboard/createOrder", {
     state: {
       cartItems: [
         {

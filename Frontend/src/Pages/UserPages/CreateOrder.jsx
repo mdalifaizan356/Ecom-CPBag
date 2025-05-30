@@ -5,9 +5,12 @@ import axiosInstance from "../../lib/axios.js";
 const CreateOrder = () => {
   const [step, setStep] = useState(1);
   const location = useLocation();
-  const { cartItems = [] } = location.state || {};
+  const { cartItems = []} = location.state || {};
   const [products, setProducts] = useState([]);
-  
+
+  console.log(products);
+
+
   useEffect(() => {
     const itemsWithQuantity = cartItems.map((item) => ({...item, Quantity: item.Quantity || 1,}));
     setProducts(itemsWithQuantity);
@@ -28,6 +31,7 @@ const CreateOrder = () => {
 
   const getTotal = () =>products.reduce((sum, item) => sum + item.ProductId.Price * item.Quantity, 0);
   const total = products.reduce((sum, item) => sum + item.ProductId.Price * item.Quantity, 0);
+
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [addresses, setAddresses] = useState([]);
   const getAllAddress = async () => {
@@ -46,16 +50,18 @@ const CreateOrder = () => {
     useEffect(() => {
       getAllAddress();
     }, []);
+
     const [paymentMethod, setPaymentMethod] = useState("");
 
     const handlePlaceOrder = () => {
-    const orderData = {
-      address,
-      paymentMethod,
-      cartItems,
-      total
+    const orderData ={
+      Products : products,
+      BuyerAddress : selectedAddress._id ,
+      PaymentMode : paymentMethod,
+      GrandTotal : total,
+
     };
-    console.log("✅ Order Placed:", orderData);
+    console.log("Order Placed:", orderData);
     alert("Order placed successfully!");
   };
   
@@ -124,20 +130,18 @@ const CreateOrder = () => {
           <h3 className="font-semibold mb-2">Review Order</h3>
           <div>
             <div className="flex overflow-x-auto gap-4 mb-5 mt-5 px-2 py-4">
-  {cartItems.map((item, index) => (
-    <div key={index} className="min-w-[45%] flex-shrink-0 border border-red-700 p-2 rounded">
-      <div className="mb-2">
-        <figure>
-          <img src={item.ProductId.Images[0]} alt="Product" className="w-full h-32 object-contain" />
-        </figure>
-      </div>
-      <div className="p-1">
-        <p>Quantity: {item.Quantity}</p>
-        <p>₹{item.ProductId.Price * item.Quantity}</p>
-      </div>
-    </div>
-  ))}
-</div>
+              {cartItems.map((item, index) => (
+                <div key={index} className="min-w-[45%] flex-shrink-0 border border-red-700 p-2 rounded">
+                <div className="mb-2">
+                  <figure><img src={item.ProductId.Images[0]} alt="Product" className="w-full h-32 object-contain" /></figure>
+                </div>
+              <div className="p-1">
+                <p>Quantity: {item.Quantity}</p>
+                <p>₹{item.ProductId.Price * item.Quantity}</p>
+              </div>
+            </div>
+            ))}
+          </div>
           <div>
             <p><strong>Product</strong><span>{selectedAddress.FullName}, {selectedAddress.Street}, {selectedAddress.City}, {selectedAddress.Pincode}</span></p>
             <p><strong>Payment:</strong> {paymentMethod}</p>
