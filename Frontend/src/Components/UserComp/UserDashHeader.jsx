@@ -1,8 +1,14 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { LogOut, ShoppingCart, Briefcase, User, LogIn, Heart } from "lucide-react";
 
 const UserDashHeader = () => {
+
+  navigate = useNavigate();
+  const handleLogout = ()=>{
+    localStorage.removeItem("role");
+    navigate("/")
+  }
   return (
     <>
     <div className="navbar  fixed top-0 left-0 w-full bg-blue-600 p-2  z-50">
@@ -26,7 +32,8 @@ const UserDashHeader = () => {
         <li><Link to="adminprofile" className="justify-between">Profile</Link></li>
         <li><Link to="useraddress" className="justify-between">My Address</Link></li>
         <li><Link to="userorders" className="justify-between">My Orders</Link></li>
-        <li><Link to="/">Logout</Link></li>
+        {/* <li><Link to="/">Logout</Link></li> */}
+        <li><button onClick={handleLogout}>Logout</button></li>
       </ul> 
     </div>
   </div>

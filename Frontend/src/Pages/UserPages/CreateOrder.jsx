@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
 import axiosInstance from "../../lib/axios.js";
+import { toast } from 'react-hot-toast';
 
 const CreateOrder = () => {
   const [step, setStep] = useState(1);
   const location = useLocation();
-  const { cartItems = []} = location.state || {};
+  const { cartItems = [], source} = location.state || {};
   const [products, setProducts] = useState([]);
 
-  console.log(products);
-
+  
 
   useEffect(() => {
     const itemsWithQuantity = cartItems.map((item) => ({...item, Quantity: item.Quantity || 1,}));
     setProducts(itemsWithQuantity);
   }, [cartItems]);
+
+
 
   const updateQuantity = (index, change) => {
     setProducts((prev) => {
@@ -64,11 +66,19 @@ const CreateOrder = () => {
     console.log("Order Placed:", orderData);
     alert("Order placed successfully!");
   };
+
+  useEffect(() => {
+  if (source === "cartSingle" || source === "cartAll") {
+    setStep(2);
+  }
+  }, [source]);
+
+  console.log(products);
   
   return(
     <div className="md:w-full mx-auto p-4 min-h-screen">
       <h2 className="text-2xl font-bold mb-4">Step {step}</h2>
-      {step === 1 && (
+      {step === 1 && source === "single" &&(
         <div className="max-w-3xl mx-auto p-4 border border-amber-300 min-h-screen">
           <h2 className="text-2xl font-bold mb-4">Secure Checkout</h2>
           {products.map((item, index) => (

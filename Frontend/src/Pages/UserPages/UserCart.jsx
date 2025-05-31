@@ -8,6 +8,7 @@ import {Trash2, ShoppingCart, Heart} from "lucide-react"
 const UserCart = () => {
   const navigate = useNavigate();
   const [bags, setBags] = useState([]);
+  const [total, setTotal] = useState(0);
   const [refresh, setRefresh] = useState(false);
 
   const Role = localStorage.getItem("role");
@@ -17,6 +18,9 @@ const UserCart = () => {
       const response = await axiosInstance.get(`/cartroutes/cartproduct`);
       if (response.status === 200) {
         const AllProducts = response.data.products;
+        const totalAmountofQty = response.data.total;
+        console.log(">>>>>>>>>>>totalAmountofQty>>>>>>>>>>>>",response.data.total)
+        setTotal(totalAmountofQty)
         console.log(AllProducts)
         setBags(AllProducts);
       }
@@ -110,6 +114,7 @@ const UserCart = () => {
   const buyNow = async (bag) => {
   navigate("/userdashboard/createOrder", {
     state: {
+      source: "cartSingle",
       cartItems: [
         {
           ...bag,
@@ -128,20 +133,21 @@ const createOrder = () => {
 
     navigate("/userdashboard/createorder", {
       state: {
+        source: "cartAll",
         cartItems: itemsWithQty,
       },
     });
   };
 
 
-  const totalPrice = ()=>{
-    let total = 0;
-    for (let i = 0; i < bags.length; i++) {
-      const qty = bags[i].Quantity || 1;
-      total += bags[i].ProductId.Price * qty;
-    }
-    return total;
-  }
+  // const totalPrice = ()=>{
+  //   let total = 0;
+  //   for (let i = 0; i < bags.length; i++) {
+  //     const qty = bags[i].Quantity || 1;
+  //     total += bags[i].ProductId.Price * qty;
+  //   }
+  //   return total;
+  // }
 
   return (
     <>
@@ -190,7 +196,8 @@ const createOrder = () => {
         <div className="w-full md:w-3/4 mx-auto mt-8 p-6 bg-white rounded shadow border border-gray-200">
           <h2 className="text-2xl font-bold mb-4">Cart Summary</h2>
           <p className="text-lg mb-1">Total Items: {bags.length}</p>
-          <p className="text-lg mb-4">Total Price: {totalPrice()}</p>
+          {/* <p className="text-lg mb-4">Total Price: {totalPrice()}</p> */}
+          <p className="text-lg mb-4">Total Price: {total}</p>
           <button
           onClick={createOrder}
             className="bg-emerald-600 text-white px-6 py-2 rounded hover:bg-emerald-700 transition"
