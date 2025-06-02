@@ -164,3 +164,66 @@ const CreateOrder = () => {
 };
 
 export default CreateOrder;
+
+
+
+
+
+
+import React, {useState }from 'react'
+import {X} from "lucide-react"
+
+const FilterOptions = ({setShowSidebar, showSidebar}) => {
+
+
+   const [filters, setFilters] = useState({
+    search: "",
+    categories: [],
+    price: { min: "", max: "" },
+    rating: "",
+    sort: "",
+  });
+
+  const categoryOptions = ["Electronics", "Clothing", "Shoes", "Accessories"];
+
+  const handleCategoryChange = (category) => {
+    setFilters((prev) => {
+      const isSelected = prev.categories.includes(category);
+      return {
+        ...prev,
+        categories: isSelected
+          ? prev.categories.filter((c) => c !== category)
+          : [...prev.categories, category],
+      };
+    });
+  };
+
+  const handleClearFilters = () => {
+    setFilters({
+      categories: [],
+    });
+    setShowSidebar(!showSidebar)
+  };
+
+  return (
+  <div className="w-full p-4  h-full -z-0">
+    <button onClick={handleClearFilters} className="w-full bg-red-500 text-white py-2 rounded hover:bg-red-600">Clear Filters</button>
+    <div>
+      <input type="text" placeholder="Search products..." value={filters.search} onChange={(e) => setFilters({ ...filters, search: e.target.value })} className="w-full p-2 border rounded"/>
+    </div>
+    <div>
+      <h3 className="font-semibold text-gray-700 mb-2">Category</h3>
+      <div className="space-y-1">
+      {categoryOptions.map((cat) => (
+        <label key={cat} className="flex items-center gap-2">
+          <input type="checkbox" checked={filters.categories.includes(cat)} onChange={() => handleCategoryChange(cat)}/><span>{cat}</span>
+        </label>
+      ))}
+      </div>
+    </div>
+      <button onClick={handleClearFilters} className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">Apply Filters</button>
+  </div>
+)
+}
+
+export default FilterOptions

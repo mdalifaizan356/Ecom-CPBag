@@ -3,12 +3,14 @@ import { Link, useNavigate } from 'react-router-dom'
 import { LogOut, ShoppingCart, Briefcase, User, LogIn, Heart } from "lucide-react";
 
 const UserDashHeader = () => {
+  const navigate = useNavigate();
 
-  navigate = useNavigate();
   const handleLogout = ()=>{
     localStorage.removeItem("role");
-    navigate("/")
+    navigate("/");
   }
+
+  
   return (
     <>
     <div className="navbar  fixed top-0 left-0 w-full bg-blue-600 p-2  z-50">
