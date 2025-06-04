@@ -28,6 +28,21 @@ const userController ={
         }
     },
 
+
+// Fetch All User
+    fetchAllUser: async (req, res)=>{
+        try {
+            const allUsers = await userModel.find();
+            console.log(allUsers)
+            res.status(200).json({ message: "return your all product successfully", allUsers: allUsers});
+        }
+        catch (error) {
+            console.log(error)
+            return res.status(500).json({message: `Internal Server Error ${error}`});
+        }
+    },
+
+
 // Add Address
     addAddress: async (req, res)=>{ 
         try {

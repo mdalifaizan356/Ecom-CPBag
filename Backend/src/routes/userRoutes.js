@@ -5,6 +5,7 @@ import verifyToken from "../middlewares/TokenVarification.js";
 
 const router = express.Router();
 router.patch("/changepass", verifyToken, userController.changePass);
+router.get("/fetchalluser", verifyToken, userController.fetchAllUser);
 router.post("/addaddress", verifyToken, userController.addAddress);
 router.get("/myaddress", verifyToken, userController.myAddress);
 router.get("/fetchselectedaddress/:AddressId", verifyToken, userController.fetchSelectedAddress);

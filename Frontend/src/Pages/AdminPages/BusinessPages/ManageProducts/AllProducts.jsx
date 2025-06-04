@@ -56,8 +56,8 @@ const AllProducts = () => {
 
   return (
     <>
-      <div className="overflow-auto max-h-[70vh]">
-  <table className="table">
+      <div className="overflow-x-auto">
+  <table  className="table w-full">
     <thead>
       <tr>
         <th className="sticky top-0 bg-base-200 z-10"></th>

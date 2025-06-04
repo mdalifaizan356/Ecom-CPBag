@@ -5,7 +5,7 @@ const AdminSidebar = () => {
   return (
   <>
     <div>
-      <ul className="menu bg-base-200 rounded-box w-56 p-2 mb-2" >
+      <ul className="menu bg-base-200 rounded-box w-56 p-2 mb-2 h-" >
         <li>
           <details open>
             <summary>Manage website</summary>
