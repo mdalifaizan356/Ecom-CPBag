@@ -1,9 +1,11 @@
-import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { LogOut, ShoppingCart, Briefcase, User, LogIn, Heart } from "lucide-react";
+import { AuthContext } from '../../Context/AuthContext';
 
 const UserDashHeader = () => {
   const navigate = useNavigate();
+  const { userData } = useContext(AuthContext);
 
   const handleLogout = ()=>{
     localStorage.removeItem("role");
@@ -21,7 +23,8 @@ const UserDashHeader = () => {
           <div className="flex items-center gap-8">
             <Link to="/userdashboard" className="flex items-end gap-0.5 hover:opacity-80 transition-all">
               <div className="size-16 rounded-lg bg-primary/10 flex items-center justify-center avatar">
-                <img src="logo.jpeg" alt="Product"/>
+                <img src="../../../public/logo.jpeg" alt="Product"/>
+                {/* <h1>{userData?.Name || "Guest"}</h1> */}
               </div>
               <h1 className="text-lg font-bold" style={{color:"red", fontSize:"20px"}}>Bag Agency</h1>
             </Link>
@@ -38,11 +41,12 @@ const UserDashHeader = () => {
         <div className="w-10 rounded-full">
           <img 
             alt="Tailwind CSS Navbar component"
-            src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+            // src={userData?.ProfilePic || "../../../public/limitedOffer.jpg"} />
+            src="../../../public/limitedOffer.jpg" />
         </div>
       </div>
       <ul tabIndex={0} className="menu menu-sm dropdown-content bg-blue-500 rounded-box z-[1] mt-5 w-40 p-2 shadow">
-        <li><Link to="adminprofile" className="justify-between">Profile</Link></li>
+        <li><Link to="userprofile" className="justify-between">Profile</Link></li>
         <li><Link to="useraddress" className="justify-between">My Address</Link></li>
         <li><Link to="userorders" className="justify-between">My Orders</Link></li>
         {/* <li><Link to="/">Logout</Link></li> */}

@@ -10,7 +10,7 @@ const UserAddress = () => {
   const [refresh, setRefresh] = useState(false);
   const [formVisiblitity, setFormVisiblitity] = useState(false);
   const [updateFormVisiblitity, setUpdateFormVisiblitity] = useState(false);
-  const [selectedAddress, setSelectedAddress] = useState(null); // 🆕
+  const [selectedAddress, setSelectedAddress] = useState(null);
 
   const getAllAddress = async () => {
     try {

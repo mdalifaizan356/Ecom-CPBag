@@ -14,7 +14,7 @@ const HomeFooter = () => {
       <aside>
         <div className="avatar flex items-end justify-between">
           <div className="mask mask-squircle w-24">
-            <img src="logo.jpeg" alt="Product"/>
+            <img src="../../../public/logo.jpeg" alt="Product"/>
           </div>
         </div>
         <p className="font-bold">C.P. Bag Agency<br/>Providing reliable quality since 1992</p>

@@ -20,6 +20,7 @@ import UserProfile from './Pages/UserPages/UserProfile';
 import UserOrders from './Pages/UserPages/UserOrders';
 import Checkout from './Pages/UserPages/Checkout';
 import CreateOrder from './Pages/UserPages/CreateOrder';
+import EditProfile from "./Pages/UserPages/EditProfile";
 
 import AdminDashLayout from './Layout/AdminDash/AdminDashLayout';
 import AdminIndex from './Pages/AdminPages/PersonalPages/AdminIndex';
@@ -29,6 +30,7 @@ import AllUsers from './Pages/AdminPages/BusinessPages/ManageUsers/AllUsers';
 import AllProducts from './Pages/AdminPages/BusinessPages/ManageProducts/AllProducts';
 import AddProduct from './Pages/AdminPages/BusinessPages/ManageProducts/AddProduct';
 import EditProduct from './Pages/AdminPages/BusinessPages/ManageProducts/EditProduct';
+
 
 
 
@@ -49,7 +51,8 @@ function App() {
           <Route index element={<UserIndex />} />
           <Route path="usercart" element={<UserCart />} />
           <Route path="userwishlist" element={<UserWishlist  />} />
-          <Route path="userprofile" element={<UserProfile />} /> 
+          <Route path="userprofile" element={<UserProfile />} />
+          <Route path="editprofile" element={<EditProfile />} />
           <Route path="userorders" element={<UserOrders />} />
           <Route path="useraddress" element={<UserAddress />} />
           <Route path="usersettings" element={<UserSetting />} />

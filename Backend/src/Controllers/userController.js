@@ -43,6 +43,21 @@ const userController ={
     },
 
 
+// Fetch Single User
+    fetchSingleUser: async(req, res)=>{
+        try {
+            const{id} = req.user;
+            const userData = await userModel.findById(id);
+            res.status(200).json({ message: "User Data Successfully Fetched", userData: userData});
+
+        }
+        catch(error) {
+            console.log(error)
+            return res.status(500).json({message: `Internal Server Error ${error}`});    
+        }
+    },
+
+
 // Add Address
     addAddress: async (req, res)=>{ 
         try {
